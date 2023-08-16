@@ -6,15 +6,20 @@
 
     <sql id="selectListWhere">
 
+        <if test="searchCourseId > 0">
+           and c.id = #{searchCourseId}
+        </if>
+
     </sql>
 
     <select id="selectListCount" resultType="long">
         select count(*)
-        from take_course
+        from take_course tc
+        join course c on tc.course_id = c.id
+        join member m on tc.user_id = m.user_id
         where 1 = 1
         <include refid="selectListWhere"/>
     </select>
-
 
     <select id="selectList" resultType="com.zerobase.fastlms.course.dto.TakeCourseDto">
         select tc.*
